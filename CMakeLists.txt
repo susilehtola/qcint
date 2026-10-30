@@ -74,6 +74,20 @@ configure_file(
   "${PROJECT_SOURCE_DIR}/src/cint_config.h.in"
   "${PROJECT_BINARY_DIR}/src/cint_config.h")
 
+# CACHE_SIZE_I8 is consumed by #cmakedefine in include/cint.h.in
+option(CACHE_SIZE_I8 "Use int64_t for CACHE_SIZE_T, the return type of the integral functions" off)
+if(CACHE_SIZE_I8)
+  message("Use 64-bit integers (int64_t) for the cache size returned by integral functions")
+endif()
+
+# libcint's -DI8=1 (int64_t for all API integers) has not been supported since
+# qcint 3. Ignoring it would silently produce a library that expects 32-bit
+# integer arrays from callers built for 64-bit ones.
+if(I8)
+  message(FATAL_ERROR "I8 (64-bit integers in the API) is not supported by qcint; "
+    "use libcint for an integer-8 build")
+endif()
+
 configure_file(
   "${PROJECT_SOURCE_DIR}/include/cint.h.in"
   "${PROJECT_BINARY_DIR}/include/cint.h")
