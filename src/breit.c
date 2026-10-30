@@ -38,7 +38,7 @@
 #include "misc.h"
 #include "c2f.h"
 
-#define DECLARE(X)      int X(double complex *out, int *dims, int *shls, \
+#define DECLARE(X)      CACHE_SIZE_T X(double complex *out, int *dims, int *shls, \
                               int *atm, int natm, int *bas, int nbas, double *env, \
                               CINTOpt *opt, double *cache)
 
@@ -102,7 +102,7 @@ static void _copy_to_out(double complex *out, double complex *in, int *dims, int
 static CACHE_SIZE_T _int2e_breit_drv(double complex *out, int *dims, int *shls,
                             int *atm, int natm, int *bas, int nbas, double *env,
                             CINTOpt *opt, double *cache, int ncomp_tensor,
-                            int (*f_gaunt)(), int (*f_gauge_r1)(), int (*f_gauge_r2)())
+                            CACHE_SIZE_T (*f_gaunt)(), CACHE_SIZE_T (*f_gauge_r1)(), CACHE_SIZE_T (*f_gauge_r2)())
 {
         if (out == NULL) {
                 CACHE_SIZE_T cache_size1 = (*f_gauge_r1)(NULL, NULL, shls,
