@@ -15,11 +15,15 @@ is optimized against SSE3, AVX, AVX2 and AVX-512 instructions.  On x86_64 platfo
 be 5 ~ 50% faster than libcint.  Please refer to libcint for
 more details of the features and installation instructions.
 
-Unlike libcint, qcint does not support the integer-8 build (`-DI8=1`): all
-integers in the API are 32-bit `int`, and configuring with `-DI8=1` fails.
-`-DCACHE_SIZE_I8=1` is supported; it makes `CACHE_SIZE_T`, the return type
-of the integral functions (which return the required cache size when `out` is
-NULL), `int64_t`.
+Like libcint, qcint can be built with 64-bit integers in the API
+(`-DI8=1`), which makes `FINT` (the type of the `atm`, `bas`, `shls` and
+`dims` arrays, `natm`, `nbas` and the return values) `int64_t` instead of
+`int`, e.g. to match Fortran codes compiled with 8-byte default integers.
+Callers must then pass 64-bit integer arrays; the library is not ABI
+compatible with a default build. `-DCACHE_SIZE_I8=1` instead makes only
+`CACHE_SIZE_T`, the return type of the integral functions (which return the
+required cache size when `out` is NULL), `int64_t`; it is implied by
+`-DI8=1`.
 
 
 Bug report
